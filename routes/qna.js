@@ -17,7 +17,8 @@ router.post("/postquestion", async (req, res) => {
 router.post("/postanswer", async (req, res) => {
 	const answer = new Answer({
 		answer: req.body.answer,
-		sender: req.body.sender
+		sender: req.body.sender,
+		questionId: req.body.questionId
 	});
 	const savedAnswer = await answer.save();
 	res.send(savedAnswer);
@@ -25,6 +26,10 @@ router.post("/postanswer", async (req, res) => {
 router.get("/getquestions", async (req, res) => {
 	const questionList = await Question.find();
 	res.send(questionList);
+});
+router.get("/getanswers", async (req, res) => {
+	const answerList = await Answer.find();
+	res.send(answerList);
 });
 
 module.exports = router;
