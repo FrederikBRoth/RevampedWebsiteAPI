@@ -54,7 +54,11 @@ router.post("/register", async (req, res) => {
 		password: hashPassword
 	});
 	const savedUser = await newUser.save();
-	res.send(savedUser);
+	res.send("User Created!");
+});
+
+router.get("/checklogin", async (req, res) => {
+	res.send(req.session.loggedIn);
 });
 
 module.exports = router;
