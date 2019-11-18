@@ -31,7 +31,9 @@ const answerValidation = data => {
 	const schema = Joi.object({
 		answer: Joi.string()
 			.min(6)
-			.required()
+			.required(),
+		sender: Joi.string().required(),
+		questionId: Joi.string().required()
 	});
 	return schema.validate(data);
 };
