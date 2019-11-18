@@ -61,4 +61,9 @@ router.get("/checklogin", async (req, res) => {
 	res.send(req.session.loggedIn);
 });
 
+router.get("/logout", async (req, res) => {
+	req.session.destroy();
+	res.send("Logged Out!");
+});
+
 module.exports = router;
