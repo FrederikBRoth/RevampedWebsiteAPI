@@ -58,7 +58,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/checklogin", async (req, res) => {
-	res.send(req.session.loggedIn);
+	res.send(req.session);
 });
 
 router.get("/logout", async (req, res) => {
