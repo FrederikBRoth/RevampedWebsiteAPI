@@ -1,17 +1,18 @@
 const Session = require("../models/Session");
 
 async function checkLoggedUsers(username) {
-	let canLogIn = false;
-	const allLoggedInUsers = await Session.find({}, function(err, users) {
-		users.forEach(function(user) {
+	const allLoggedInUsers = await Session.find({});
+	const isLoggedIn = () => {
+		let loggedIn = false;
+		allLoggedInUsers.forEach(function(user) {
 			const jsonOfSession = JSON.parse(user.session);
 			if (jsonOfSession.username == username) {
-				canLogIn = true;
-			} else {
-				canLogIn = false;
+				loggedIn = true;
 			}
 		});
-	});
-	return canLogIn;
+		return loggedIn;
+	};
+
+	return isLoggedIn();
 }
 module.exports.checkLoggedUsers = checkLoggedUsers;
