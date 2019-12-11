@@ -1,7 +1,7 @@
 const Session = require("../models/Session");
 
 async function checkLoggedUsers(username) {
-	let canLogIn;
+	let canLogIn = true;
 	const allLoggedInUsers = await Session.find({}, function(err, users) {
 		users.forEach(function(user) {
 			const jsonOfSession = JSON.parse(user.session);

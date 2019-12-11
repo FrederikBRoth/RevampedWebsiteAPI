@@ -22,8 +22,8 @@ router.post("/login", async (req, res) => {
 		return res.status(400).end();
 	}
 
-	const notAlreadyLoggedIn = await checkLoggedUsers(req.body.username);
-	if (!notAlreadyLoggedIn) {
+	const AlreadyLoggedIn = await checkLoggedUsers(req.body.username);
+	if (AlreadyLoggedIn) {
 		res.statusMessage = "User already logged in!";
 		return res.status(400).end();
 	}
