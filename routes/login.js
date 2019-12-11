@@ -66,4 +66,8 @@ router.get("/logout", async (req, res) => {
 	res.send("Logged Out!");
 });
 
+router.get("/getsessions", async (req, res) => {
+	res.send();
+});
+
 module.exports = router;

@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+
 dotenv.config();
 //Routes
 const qnaRoute = require("./routes/qna");
@@ -25,7 +27,10 @@ app.use(
 	session({
 		secret: "federicowebsite",
 		resave: false,
-		saveUninitialized: true
+		saveUninitialized: true,
+		store: new MongoStore({
+			mongooseConnection: mongoose.connection
+		})
 	})
 );
 
