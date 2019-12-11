@@ -6,6 +6,7 @@ const {
 	loginValidation
 } = require("../interfaces/validate");
 
+const { checkLoggedUsers } = require("../interfaces/checkLoggedInUsers");
 const User = require("../models/User");
 
 router.post("/login", async (req, res) => {
@@ -21,11 +22,18 @@ router.post("/login", async (req, res) => {
 		return res.status(400).end();
 	}
 
+	const notAlreadyLoggedIn = await checkLoggedUsers(req.body.username);
+	if (!notAlreadyLoggedIn) {
+		res.statusMessage = "User already logged in!";
+		return res.status(400).end();
+	}
+
 	const validPass = await bcrypt.compare(req.body.password, user.password);
 	if (!validPass) {
 		res.statusMessage = "Invalid password";
 		return res.status(400).end();
 	}
+
 	req.session.username = req.body.username;
 	req.session.loggedIn = true;
 
@@ -65,9 +73,4 @@ router.get("/logout", async (req, res) => {
 	req.session.destroy();
 	res.send("Logged Out!");
 });
-
-router.get("/getsessions", async (req, res) => {
-	res.send();
-});
-
 module.exports = router;
