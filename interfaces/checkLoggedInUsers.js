@@ -4,10 +4,10 @@ async function checkLoggedUsers(username) {
 	const allLoggedInUsers = await Session.find({});
 	const isLoggedIn = () => {
 		let loggedIn = false;
-		allLoggedInUsers.forEach(function(user) {
+		allLoggedInUsers.forEach(function (user) {
 			const jsonOfSession = JSON.parse(user.session);
 			if (jsonOfSession.username == username) {
-				loggedIn = true;
+				await Session.remove(user)
 			}
 		});
 		return loggedIn;
