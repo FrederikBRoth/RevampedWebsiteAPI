@@ -42,12 +42,14 @@ const server = http.createServer(app);
 const io = socketIo(server);
 io.of("/socket").on("connection", socket => {
 	console.log("Client connected!");
+	socket.join("website chat");
 	socket.on("disconnect", () => {
 		console.log("Client disconnected");
+		socket.leave("website chat")
 	});
 	socket.on("SendMessage", (message, sender) => {
 		console.log(message)
-		socket.emit("ReceiveMessage", message, sender)
+		socket.to("website chat").emit("ReceiveMessage", message, sender)
 	})
 });
 server.listen("3001", () => console.log("Listen for socket connections"))
