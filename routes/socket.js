@@ -6,11 +6,14 @@ const io = require("../app");
 io.of("/socket").on("connection", async socket => {
     console.log("Client connected!");
     socket.handshake.session.socketId = socket.id;
+    socket.handshake.session.save();
     socket.join("website chat");
     socket.on("disconnect", () => {
         console.log("Client disconnected");
         socket.leave("website chat")
         delete socket.handshake.session.socketId
+        socket.handshake.session.save();
+
     });
     socket.on("SendMessage", async (message, sender) => {
         console.log(message)
