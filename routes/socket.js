@@ -5,6 +5,12 @@ const http = require("http");
 const socketIo = require("socket.io");
 const server = http.createServer(router);
 const io = socketIo(server);
+const session = require("../app")
+const sharedsession = require("express-socket.io-session");
+
+io.of("/socket").use(sharedsession(session, {
+    autoSave: true
+}))
 
 io.of("/socket").on("connection", async socket => {
     console.log("Client connected!");

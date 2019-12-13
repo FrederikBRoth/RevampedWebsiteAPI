@@ -5,8 +5,6 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const session = require("express-session");
 
-
-
 const MongoStore = require("connect-mongo")(session);
 
 const Message = require("./models/Message")
@@ -47,5 +45,6 @@ app.get("/api", (req, res) => {
 	res.send(req.session);
 });
 
-
 app.listen(3000);
+
+module.exports = session;
