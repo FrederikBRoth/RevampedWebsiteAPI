@@ -7,7 +7,7 @@ const session = require("express-session");
 
 const MongoStore = require("connect-mongo")(session);
 
-const Message = require("./models/Message")
+
 
 dotenv.config();
 //Routes
