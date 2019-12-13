@@ -13,7 +13,8 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const sharedsession = require("express-socket.io-session");
 
-session({
+
+const finalSession = session({
 	secret: "federicowebsite",
 	resave: false,
 	saveUninitialized: false,
@@ -21,7 +22,6 @@ session({
 		mongooseConnection: mongoose.connection
 	})
 })
-
 
 dotenv.config();
 
@@ -37,9 +37,9 @@ mongoose.connect(
 //Middleware
 app.use(cors());
 app.use(express.json());
-app.use(session);
+app.use(finalSession);
 
-io.of("/socket").use(sharedsession(session, {
+io.of("/socket").use(sharedsession(finalSession, {
 	autoSave: true
 }))
 
