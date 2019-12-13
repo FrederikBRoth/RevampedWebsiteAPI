@@ -25,4 +25,13 @@ io.of("/socket").on("connection", async socket => {
     })
 });
 server.listen("3001", () => console.log("Listen for socket connections"))
+
+router.get("/messages", async (req, res) => {
+    const messages = await Message.find({}).sort({ date: 1 });
+    const newMessages = messages.slice(-15);
+    const reactMessage = newMessages.map((message) => {
+        return { text: message.text, sender: message.sender }
+    })
+    res.send(reactMessage)
+})
 module.exports = router

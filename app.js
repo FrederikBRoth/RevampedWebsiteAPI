@@ -39,10 +39,6 @@ app.use(
 		})
 	})
 );
-//Socket IO setup
-
-//Socket IO methods
-
 //Route Middleware
 app.use("/api/socket", socketRoute);
 app.use("/api/qna", qnaRoute);
