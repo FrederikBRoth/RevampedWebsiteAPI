@@ -9,6 +9,8 @@ const socketIo = require("socket.io");
 
 const MongoStore = require("connect-mongo")(session);
 
+const Message = require("./models/Message")
+
 dotenv.config();
 //Routes
 const qnaRoute = require("./routes/qna");
@@ -40,17 +42,22 @@ app.use(
 //Socket IO setup
 const server = http.createServer(app);
 const io = socketIo(server);
-io.of("/socket").on("connection", socket => {
+io.of("/socket").on("connection", async socket => {
 	console.log("Client connected!");
 	socket.join("website chat");
 	socket.on("disconnect", () => {
 		console.log("Client disconnected");
 		socket.leave("website chat")
 	});
-	socket.on("SendMessage", (message, sender) => {
+	socket.on("SendMessage", async (message, sender) => {
 		console.log(message)
 		socket.to("website chat").emit("ReceiveMessage", message, sender)
 		socket.emit("ReceiveMessage", message, sender)
+		const newMessage = new Message({
+			text: message,
+			sender: sender,
+		})
+		await newMessage.save();
 	})
 });
 server.listen("3001", () => console.log("Listen for socket connections"))
