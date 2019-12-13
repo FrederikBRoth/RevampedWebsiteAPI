@@ -50,6 +50,7 @@ io.of("/socket").on("connection", socket => {
 	socket.on("SendMessage", (message, sender) => {
 		console.log(message)
 		socket.to("website chat").emit("ReceiveMessage", message, sender)
+		socket.emit("ReceiveMessage", message, sender)
 	})
 });
 server.listen("3001", () => console.log("Listen for socket connections"))
