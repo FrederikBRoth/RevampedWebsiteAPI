@@ -40,7 +40,7 @@ app.use(
 //Socket IO setup
 const server = http.createServer(app);
 const io = socketIo(server);
-io.on("connection", socket => {
+io.of("/socket").on("connection", socket => {
 	console.log("Client connected!");
 	socket.on("disconnect", () => {
 		console.log("Client disconnected");
@@ -49,7 +49,6 @@ io.on("connection", socket => {
 		console.log(message)
 		io.emit("ReceiveMessage", message, sender)
 	})
-	io.emit("ReceiveMessage", "Test", "test")
 });
 server.listen("3001", () => console.log("Listen for socket connections"))
 //Socket IO methods
