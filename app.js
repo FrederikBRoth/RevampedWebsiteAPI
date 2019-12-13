@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const session = require("express-session");
+const http = require("http");
+const socketIo = require("socket.io");
+
 const MongoStore = require("connect-mongo")(session);
 
 dotenv.config();
@@ -34,11 +37,28 @@ app.use(
 	})
 );
 
+//Socket IO setup
+const server = http.createServer(app);
+const io = socketIo(server);
+io.on("connection", socket => {
+	console.log("Client connected!");
+	socket.on("disconnect", () => {
+		console.log("Client disconnected");
+	});
+	socket.on("SendMessage", (message, sender) => {
+		console.log(message)
+		io.emit("ReceiveMessage", message, sender)
+	})
+});
+server.listen("3000", () => console.log("Listen for socket connections"))
+//Socket IO methods
+io
 //Route Middleware
 app.use("/api/qna", qnaRoute);
 app.use("/api/account", loginRoute);
 app.get("/api", (req, res) => {
 	res.send(req.session);
 });
+
 
 app.listen(3000);
