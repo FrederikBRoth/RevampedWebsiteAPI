@@ -50,7 +50,7 @@ io.on("connection", socket => {
 		io.emit("ReceiveMessage", message, sender)
 	})
 });
-server.listen("3000", () => console.log("Listen for socket connections"))
+server.listen("3001", () => console.log("Listen for socket connections"))
 //Socket IO methods
 io
 //Route Middleware
