@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const session = require("express-session");
-const http = require("http");
-const socketIo = require("socket.io");
+
+
 
 const MongoStore = require("connect-mongo")(session);
 
@@ -15,6 +15,7 @@ dotenv.config();
 //Routes
 const qnaRoute = require("./routes/qna");
 const loginRoute = require("./routes/login");
+const socketRoute = require("./routes/socket");
 
 //DB Connect
 mongoose.connect(
@@ -38,32 +39,12 @@ app.use(
 		})
 	})
 );
-
 //Socket IO setup
-const server = http.createServer(app);
-const io = socketIo(server);
-io.of("/socket").on("connection", async socket => {
-	console.log("Client connected!");
-	socket.join("website chat");
-	socket.on("disconnect", () => {
-		console.log("Client disconnected");
-		socket.leave("website chat")
-	});
-	socket.on("SendMessage", async (message, sender) => {
-		console.log(message)
-		socket.to("website chat").emit("ReceiveMessage", message, sender)
-		socket.emit("ReceiveMessage", message, sender)
-		const newMessage = new Message({
-			text: message,
-			sender: sender,
-		})
-		await newMessage.save();
-	})
-});
-server.listen("3001", () => console.log("Listen for socket connections"))
+
 //Socket IO methods
-io
+
 //Route Middleware
+app.use("/api/socket", socketRoute);
 app.use("/api/qna", qnaRoute);
 app.use("/api/account", loginRoute);
 app.get("/api", (req, res) => {
