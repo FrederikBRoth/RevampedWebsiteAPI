@@ -6,7 +6,7 @@ const socketIo = require("socket.io");
 const server = http.createServer(router);
 const io = socketIo(server);
 
-io.on("connection", async socket => {
+io.of("/socket").on("connection", async socket => {
     console.log("Client connected!");
     socket.join("website chat");
     socket.on("disconnect", () => {
@@ -25,5 +25,4 @@ io.on("connection", async socket => {
     })
 });
 server.listen("3001", () => console.log("Listen for socket connections"))
-
 module.exports = router
