@@ -49,6 +49,7 @@ io.on("connection", socket => {
 		console.log(message)
 		io.emit("ReceiveMessage", message, sender)
 	})
+	io.emit("ReceiveMessage", message, sender)
 });
 server.listen("3001", () => console.log("Listen for socket connections"))
 //Socket IO methods
