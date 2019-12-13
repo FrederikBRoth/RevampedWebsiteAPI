@@ -1,16 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Message = require("../models/Message")
-const http = require("http");
-const socketIo = require("socket.io");
-const server = http.createServer(router);
-const io = socketIo(server);
-const session = require("../app")
-const sharedsession = require("express-socket.io-session");
-
-io.of("/socket").use(sharedsession(session, {
-    autoSave: true
-}))
+const io = require("../app");
 
 io.of("/socket").on("connection", async socket => {
     console.log("Client connected!");
@@ -30,7 +21,7 @@ io.of("/socket").on("connection", async socket => {
         await newMessage.save();
     })
 });
-server.listen("3001", () => console.log("Listen for socket connections"))
+
 
 router.get("/messages", async (req, res) => {
     const messages = await Message.find({}).sort({ date: 1 });

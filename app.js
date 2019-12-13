@@ -7,13 +7,16 @@ const session = require("express-session");
 
 const MongoStore = require("connect-mongo")(session);
 
+const http = require("http");
+const socketIo = require("socket.io");
+const server = http.createServer(app);
+const io = socketIo(server);
+const sharedsession = require("express-socket.io-session");
+
+
 
 
 dotenv.config();
-//Routes
-const qnaRoute = require("./routes/qna");
-const loginRoute = require("./routes/login");
-const socketRoute = require("./routes/socket");
 
 //DB Connect
 mongoose.connect(
@@ -37,7 +40,18 @@ app.use(
 		})
 	})
 );
-module.exports = session;
+
+io.of("/socket").use(sharedsession(session, {
+	autoSave: true
+}))
+
+module.exports = io;
+
+//Routes
+const qnaRoute = require("./routes/qna");
+const loginRoute = require("./routes/login");
+const socketRoute = require("./routes/socket");
+
 //Route Middleware
 app.use("/api/socket", socketRoute);
 app.use("/api/qna", qnaRoute);
@@ -45,6 +59,6 @@ app.use("/api/account", loginRoute);
 app.get("/api", (req, res) => {
 	res.send(req.session);
 });
-
+server.listen("3001", () => console.log("Listen for socket connections"))
 app.listen(3000);
 
