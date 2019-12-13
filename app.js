@@ -37,6 +37,7 @@ app.use(
 		})
 	})
 );
+module.exports = session;
 //Route Middleware
 app.use("/api/socket", socketRoute);
 app.use("/api/qna", qnaRoute);
@@ -47,4 +48,3 @@ app.get("/api", (req, res) => {
 
 app.listen(3000);
 
-module.exports = session;
