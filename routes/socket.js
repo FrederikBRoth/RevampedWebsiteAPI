@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Message = require("../models/Message")
+const Session = require("../models/Session");
 const io = require("../app");
 
 io.of("/socket").on("connection", async socket => {
@@ -13,7 +14,6 @@ io.of("/socket").on("connection", async socket => {
         socket.leave("website chat")
         delete socket.handshake.session.socketId
         socket.handshake.session.save();
-
     });
     socket.on("SendMessage", async (message, sender) => {
         console.log(message)
@@ -35,5 +35,21 @@ router.get("/messages", async (req, res) => {
         return { text: message.text, sender: message.sender }
     })
     res.send(reactMessage)
+})
+router.get("/loggedinusers", async (req, res) => {
+    const loggedInUsers = await Session.find({});
+    const userSessions = loggedInUsers.map((user, key) => {
+        return JSON.parse(user.session)
+    })
+    const userList = userSessions.filter((user) => {
+        if (user.socketId) {
+            return true
+        } else {
+            return false;
+        }
+    }).map((user) => {
+        return { username: user.username, socketId: user.socketId };
+    })
+    res.send(userList);
 })
 module.exports = router
