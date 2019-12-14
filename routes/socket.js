@@ -9,11 +9,13 @@ io.of("/socket").on("connection", async socket => {
     socket.handshake.session.socketId = socket.id;
     socket.handshake.session.save();
     socket.join("website chat");
+    socket.to("website chat").emit("UpdateUsers");
     socket.on("disconnect", () => {
         console.log("Client disconnected");
-        socket.leave("website chat")
         delete socket.handshake.session.socketId
         socket.handshake.session.save();
+        socket.to("website chat").emit("UpdateUsers");
+        socket.leave("website chat")
     });
     socket.on("SendMessage", async (message, sender) => {
         console.log(message)
