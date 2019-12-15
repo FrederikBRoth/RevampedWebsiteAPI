@@ -65,7 +65,7 @@ router.post("/sendprivate", async (req, res) => {
 	const request = { privaterequest: req.body.user };
 	io.of("/socket")
 		.to(socketId)
-		.emit("Signal", request);
+		.emit("Signal", JSON.stringify(request));
 	res.end();
 });
 module.exports = router;
