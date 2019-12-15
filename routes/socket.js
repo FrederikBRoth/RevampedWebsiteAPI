@@ -57,11 +57,11 @@ router.get("/loggedinusers", async (req, res) => {
 		.map(user => {
 			return { username: user.username, socketId: user.socketId };
 		});
-	res.send(userList);<
+	res.send(userList);
 });
 router.post("/sendprivate", async (req, res) => {
 	const socketId = req.body.socketId;
 
-	io.to(`${socketId}`).emit("Signal", {request: req.body.user})
-})
+	io.to(`${socketId}`).emit("Signal", { request: req.body.user });
+});
 module.exports = router;
