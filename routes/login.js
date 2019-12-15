@@ -66,11 +66,13 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/checklogin", async (req, res) => {
+	console.log(req.session);
 	res.send(req.session);
 });
 
 router.get("/logout", async (req, res) => {
 	req.session.destroy();
+	console.log(req.session);
 	res.send("Logged Out!");
 });
 module.exports = router;

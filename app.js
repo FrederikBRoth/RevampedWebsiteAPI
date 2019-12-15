@@ -13,7 +13,6 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const sharedsession = require("express-socket.io-session");
 
-
 const finalSession = session({
 	secret: "federicowebsite",
 	resave: false,
@@ -21,7 +20,7 @@ const finalSession = session({
 	store: new MongoStore({
 		mongooseConnection: mongoose.connection
 	})
-})
+});
 
 dotenv.config();
 
@@ -39,9 +38,11 @@ app.use(cors());
 app.use(express.json());
 app.use(finalSession);
 
-io.of("/socket").use(sharedsession(finalSession, {
-	autoSave: true
-}))
+io.of("/socket").use(
+	sharedsession(finalSession, {
+		autoSave: true
+	})
+);
 
 module.exports = io;
 
@@ -57,6 +58,5 @@ app.use("/api/account", loginRoute);
 app.get("/api", (req, res) => {
 	res.send(req.session);
 });
-server.listen("3001", () => console.log("Listen for socket connections"))
+server.listen("3001", () => console.log("Listen for socket connections"));
 app.listen(3000);
-
