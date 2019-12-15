@@ -15,7 +15,7 @@ const sharedsession = require("express-socket.io-session");
 
 const finalSession = session({
 	secret: "federicowebsite",
-	resave: false,
+	resave: true,
 	saveUninitialized: false,
 	store: new MongoStore({
 		mongooseConnection: mongoose.connection
