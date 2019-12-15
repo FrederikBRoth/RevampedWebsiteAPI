@@ -61,7 +61,7 @@ router.get("/loggedinusers", async (req, res) => {
 });
 router.post("/sendprivate", async (req, res) => {
 	const socketId = req.body.socketId;
-	console.log("Send private Request");
-	io.to(`${socketId}`).emit("Signal", { request: req.body.user });
+	console.log("Send private Request" + socketId);
+	io.to(socketId).emit("Signal", { request: req.body.user });
 });
 module.exports = router;
