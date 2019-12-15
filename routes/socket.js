@@ -33,7 +33,6 @@ io.of("/socket").on("connection", async socket => {
 		await newMessage.save();
 	});
 });
-
 router.get("/messages", async (req, res) => {
 	const messages = await Message.find({}).sort({ date: 1 });
 	const newMessages = messages.slice(-15);

@@ -71,7 +71,7 @@ router.get("/checklogin", async (req, res) => {
 });
 
 router.get("/logout", async (req, res) => {
-	req.session.loggedIn = false;
+	req.session.destroy();
 	console.log(req.session);
 	res.send("Logged Out!");
 });
