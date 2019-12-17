@@ -9,6 +9,7 @@ const MongoStore = require("connect-mongo")(session);
 
 const http = require("http");
 const socketIo = require("socket.io");
+//Group Chat
 const server = http.createServer(app);
 const io = socketIo(server);
 const sharedsession = require("express-socket.io-session");
@@ -50,11 +51,13 @@ module.exports = io;
 const qnaRoute = require("./routes/qna");
 const loginRoute = require("./routes/login");
 const socketRoute = require("./routes/socket");
+const privatesocketRoute = require("./routes/privatesocket");
 
 //Route Middleware
 app.use("/api/socket", socketRoute);
 app.use("/api/qna", qnaRoute);
 app.use("/api/account", loginRoute);
+app.use("/api/privatesocketRoute", privatesocketRoute);
 app.get("/api", (req, res) => {
 	res.send(req.session);
 });

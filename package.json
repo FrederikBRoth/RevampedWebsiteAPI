@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "nodemon app.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"deploy": "git push && ssh frederik@federicoshytte.dk << EOF deployWebAPI EOF"
+		"deploy": "git push && ssh frederik@federicoshytte.dk deployWebAPI"
 	},
 	"author": "",
 	"license": "ISC",
