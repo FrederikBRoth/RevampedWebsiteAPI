@@ -10,7 +10,7 @@ io.of(namespace).on("connection", async socket => {
 	socket.on("disconnect", async () => {
 		console.log("Private chat user disconnected!");
 	});
-	socket.on("create or join", () => {
+	socket.on("create or join", room => {
 		console.log("Received request to create or join room " + room);
 
 		var clientsInRoom = io.of(namespace).adapter.rooms[room];
