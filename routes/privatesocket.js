@@ -39,7 +39,7 @@ io.of(namespace).on("connection", async socket => {
 		}
 	});
 	socket.on("message", (message, room) => {
-		log("Client said: ", message);
+		console.log("Client said: ", message);
 		// for a real app, would be room-only (not broadcast)
 		socket.to(room).emit("message", message);
 	});
