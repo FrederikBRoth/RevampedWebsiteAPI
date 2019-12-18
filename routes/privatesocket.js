@@ -9,5 +9,6 @@ io.of("/privatesocket").on("connection", async socket => {
 	socket.on("disconnect", async () => {
 		console.log("Private chat user disconnected!");
 	});
+	socket.on("create or join").emit("test");
 });
 module.exports = router;
